@@ -1,7 +1,16 @@
 [build]
   base = "sepsisguard-react"
-  publish = "sepsisguard-react/dist"
-  command = "cd sepsisguard-react && npm install && npm run build"
+  publish = "dist"
+  command = "npm install && npm run build"
+
+[functions]
+  directory = "../sepsisguard-backend/functions"
+  node_bundle = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
 
 [[redirects]]
   from = "/*"
