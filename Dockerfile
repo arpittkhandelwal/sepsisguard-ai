@@ -1,5 +1,5 @@
 # --- Build Frontend ---
-FROM node:18 AS build-stage
+FROM node:20 AS build-stage
 WORKDIR /app
 COPY sepsisguard-react/package*.json ./sepsisguard-react/
 RUN cd sepsisguard-react && npm install
@@ -7,7 +7,7 @@ COPY sepsisguard-react/ ./sepsisguard-react/
 RUN cd sepsisguard-react && npm run build
 
 # --- Setup Backend & Serve ---
-FROM node:18-slim
+FROM node:20-slim
 WORKDIR /app
 
 # Copy built frontend
