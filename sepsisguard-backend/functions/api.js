@@ -47,7 +47,7 @@ const runSimulationTick = async () => {
   }
 };
 
-app.get('/.netlify/functions/api/patients', async (req, res) => {
+app.get('/patients', async (req, res) => {
   try {
     // Run a simulation tick before returning data to make the dashboard feel alive
     await runSimulationTick();
@@ -58,7 +58,7 @@ app.get('/.netlify/functions/api/patients', async (req, res) => {
   }
 });
 
-app.get('/.netlify/functions/api/patients/:id', async (req, res) => {
+app.get('/patients/:id', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM patients WHERE id = $1', [req.params.id]);
     if (result.rows.length > 0) res.json(result.rows[0]);
@@ -68,7 +68,7 @@ app.get('/.netlify/functions/api/patients/:id', async (req, res) => {
   }
 });
 
-app.get('/.netlify/functions/api/alerts', async (req, res) => {
+app.get('/alerts', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM alerts');
     res.json(result.rows);
@@ -77,7 +77,7 @@ app.get('/.netlify/functions/api/alerts', async (req, res) => {
   }
 });
 
-app.get('/.netlify/functions/api/analytics', async (req, res) => {
+app.get('/analytics', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM analytics');
     const patients = await pool.query('SELECT status FROM patients');
@@ -105,7 +105,7 @@ app.get('/.netlify/functions/api/analytics', async (req, res) => {
   }
 });
 
-app.post('/.netlify/functions/api/simulate', async (req, res) => {
+app.post('/simulate', async (req, res) => {
   try {
     const { patientId, targetHr, targetMap } = req.body;
     const result = await pool.query('SELECT * FROM patients WHERE id = $1', [patientId]);
@@ -166,7 +166,7 @@ app.post('/.netlify/functions/api/simulate', async (req, res) => {
   }
 });
 
-app.post('/.netlify/functions/api/patients/:id/status', async (req, res) => {
+app.post('/patients/:id/status', async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
