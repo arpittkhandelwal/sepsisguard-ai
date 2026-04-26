@@ -5,7 +5,6 @@
 
 [functions]
   directory = "../sepsisguard-backend/functions"
-  node_bundle = true
 
 [[redirects]]
   from = "/api/*"
