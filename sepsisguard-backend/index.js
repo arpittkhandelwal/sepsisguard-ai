@@ -1,12 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const path = require('path');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 7860;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../sepsisguard-react/dist')));
 
 const pool = new Pool({
   connectionString: 'postgres://postgres:Arpit@946040@db.posldhsqknqyybwlkzxj.supabase.co:5432/postgres'
@@ -222,6 +226,11 @@ setInterval(async () => {
   }
 }, 5000); // 5s to avoid hitting Supabase free-tier limits too hard
 
+// Catch-all to serve React App for any other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../sepsisguard-react/dist/index.html'));
+});
+
 app.listen(port, () => {
-  console.log(`Supabase-connected backend listening at http://localhost:${port}`);
+  console.log(`Unified SepsisGuard AI listening at port ${port}`);
 });
