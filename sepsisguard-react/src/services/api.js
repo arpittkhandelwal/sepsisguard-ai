@@ -1,6 +1,10 @@
+// Replace the URL below with your actual Render URL once it's deployed
+// Example: 'https://sepsisguard-backend.onrender.com/api'
+const RENDER_URL = 'https://YOUR-RENDER-URL-HERE.onrender.com/api';
+
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const API_URL = import.meta.env.VITE_API_URL || 
-  (isLocalhost ? 'http://localhost:3001/api' : `${window.location.origin}/api`);
+  (isLocalhost ? 'http://localhost:3001/api' : RENDER_URL);
 
 // Fail-Safe Mock Data
 const MOCK_PATIENTS = [
@@ -12,15 +16,10 @@ export const api = {
   getPatients: async () => {
     try {
       const res = await fetch(`${API_URL}/patients`);
-      const text = await res.text();
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        console.error("Non-JSON response from API:", text.substring(0, 100));
-        throw new Error("Invalid API response format");
-      }
+      if (!res.ok) throw new Error('API Down');
+      return await res.json();
     } catch (e) {
-      console.warn("SepsisGuard: Using Fail-Safe Mock Patients", e.message);
+      console.warn("SepsisGuard: Using Mock Data. (Once your Render URL is live, update API_URL in api.js)");
       return MOCK_PATIENTS;
     }
   },
