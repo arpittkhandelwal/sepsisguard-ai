@@ -1,22 +1,21 @@
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const API_URL = import.meta.env.VITE_API_URL || (isLocalhost ? 'http://localhost:3001/api' : '/api');
 
-// Fail-Safe Mock Data for Hackathon Demo
+// Fail-Safe Mock Data for local dev if backend is not running
 const MOCK_PATIENTS = [
   { id: 'PT-8821', name: 'James Wilson', age: 68, gender: 'Male', bed: 'ICU-04', status: 'Critical', riskScore: 84, riskTrend: 'up', vitals: { hr: 112, map: 62, temp: 38.5, rr: 24, spo2: 91 }, diagnosis: 'Septic Shock / Pneumonia', admissionTime: '2026-04-26 08:30', department: 'ICU Unit Alpha', bmi: 26.4 },
-  { id: 'PT-9102', name: 'Sarah Chen', age: 45, gender: 'Female', bed: 'ICU-12', status: 'High Risk', riskScore: 58, riskTrend: 'flat', vitals: { hr: 98, map: 68, temp: 37.8, rr: 20, spo2: 94 }, diagnosis: 'Post-Op / Sepsis Surveillance', admissionTime: '2026-04-26 14:15', department: 'Emergency Ward', bmi: 22.8 },
-  { id: 'PT-7244', name: 'Robert Miller', age: 72, gender: 'Male', bed: 'ICU-08', status: 'Watch', riskScore: 32, riskTrend: 'down', vitals: { hr: 82, map: 74, temp: 37.2, rr: 18, spo2: 97 }, diagnosis: 'UTI / Potential Bacteremia', admissionTime: '2026-04-26 10:00', department: 'Medical Ward', bmi: 24.1 }
+  { id: 'PT-9102', name: 'Sarah Chen', age: 45, gender: 'Female', bed: 'ICU-12', status: 'High Risk', riskScore: 58, riskTrend: 'flat', vitals: { hr: 98, map: 68, temp: 37.8, rr: 20, spo2: 94 }, diagnosis: 'Post-Op / Sepsis Surveillance', admissionTime: '2026-04-26 14:15', department: 'Emergency Ward', bmi: 22.8 }
 ];
 
 export const api = {
   getPatients: async () => {
     try {
-      if (window.location.protocol === 'https:' && isLocalhost) throw new Error('Localhost on HTTPS');
       const res = await fetch(`${API_URL}/patients`);
       if (!res.ok) throw new Error('API Down');
       return await res.json();
     } catch (e) {
-      console.warn("SepsisGuard: Using Fail-Safe Mock Patients");
+      if (isLocalhost) return MOCK_PATIENTS;
+      console.error("Live DB Error:", e);
       return MOCK_PATIENTS;
     }
   },
@@ -39,8 +38,7 @@ export const api = {
       if (!res.ok) throw new Error('API Down');
       return await res.json();
     } catch (e) {
-      const newId = `PT-${Math.floor(Math.random() * 9000) + 1000}`;
-      return { ...patientData, id: newId, riskScore: 45, riskTrend: 'flat', status: 'Stable', bed: 'ICU-TBD' };
+      return { success: false, error: e.message };
     }
   },
   getAlerts: async () => {
@@ -49,10 +47,7 @@ export const api = {
       if (!res.ok) throw new Error('API Down');
       return await res.json();
     } catch (e) {
-      return [
-        { id: 'AL-1', severity: 'Critical', title: 'SIRS Criteria Met', patientName: 'James Wilson', bed: 'ICU-04', time: 'Just Now', description: 'Patient showing acute hemodynamic instability.' },
-        { id: 'AL-2', severity: 'High', title: 'Rising Lactate Trend', patientName: 'Sarah Chen', bed: 'ICU-12', time: '12m ago', description: 'AI detected 24% increase in lactate over 2 hours.' }
-      ];
+      return [];
     }
   },
   getAnalytics: async () => {
@@ -61,15 +56,7 @@ export const api = {
       if (!res.ok) throw new Error('API Down');
       return await res.json();
     } catch (e) {
-      return {
-        activePatients: 42,
-        criticalAlerts: 3,
-        avgResponseTime: "42s",
-        earlyDetectionHours: 8.5,
-        falsePositiveRate: 2.1,
-        survivalRateImprovement: 14.2,
-        riskDistribution: { stable: 24, monitoring: 12, elevated: 4, critical: 2 }
-      };
+      return {};
     }
   },
   updatePatientStatus: async (id, status) => {
@@ -81,24 +68,7 @@ export const api = {
       });
       return await res.json();
     } catch (e) {
-      return { success: true, status };
-    }
-  },
-  simulateIntervention: async (patientId, targetHr, targetMap) => {
-    try {
-      const res = await fetch(`${API_URL}/simulate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ patientId, targetHr, targetMap })
-      });
-      return await res.json();
-    } catch (e) {
-      return { 
-        currentRisk: 84, 
-        predictedRisk: 62, 
-        improvement: 22,
-        patient: MOCK_PATIENTS[0]
-      };
+      return { success: false };
     }
   }
 };
