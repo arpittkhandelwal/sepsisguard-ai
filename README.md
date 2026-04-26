@@ -1,6 +1,6 @@
 # 🧬 SepsisGuard AI: Predictive Precision for Acute Care
 
-> **Finalist Submission for Hackathon 2024**  
+> **Finalist Submission for GeekVerse - GeeksforGeeks X LPU 2026**  
 > *Transforming chaotic clinical data into life-saving predictive intelligence.*
 
 ---
