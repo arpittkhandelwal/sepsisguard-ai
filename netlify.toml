@@ -4,7 +4,7 @@
   publish = "dist"
 
 [functions]
-  directory = "../sepsisguard-backend/functions"
+  directory = "functions"
 
 [[redirects]]
   from = "/api/*"
