@@ -1,3 +1,13 @@
+---
+title: SepsisGuard AI
+emoji: 🧬
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 # 🧬 SepsisGuard AI  
 ### Predictive Intelligence for Critical Care
 
@@ -108,7 +118,7 @@ SepsisGuard AI transforms fragmented ICU data into a real-time predictive intell
 | **Backend** | Node.js + Express (Serverless Functions) |
 | **Database** | PostgreSQL (Supabase) |
 | **AI Logic** | Time-series ML Simulations |
-| **Deployment** | Netlify (Unified Frontend + Backend) |
+| **Deployment** | Hugging Face Spaces (Unified Build) |
 
 ---
 
@@ -146,7 +156,7 @@ SepsisGuard AI transforms fragmented ICU data into a real-time predictive intell
 ## 🚀 Deployment & Installation
 
 ### Live Demo
-🔗 [https://sepsisai.netlify.app](https://sepsisai.netlify.app)
+🔗 [Hugging Face Space](https://huggingface.co/spaces/arpitkhandelwal810/sepsis-ai)
 
 ### Local Development
 ```bash
@@ -165,15 +175,6 @@ npm run dev
 
 *   👨‍⚕️ **User:** `dr.khandelwal@hospital.org`
 *   🔑 **Password:** `123`
-
----
-
-## 🧠 The Vision
-
-> “In critical care, timing is survival.”
-
-SepsisGuard AI doesn’t just detect deterioration—  
-it buys doctors the one thing they can’t create: **time**.
 
 ---
 
