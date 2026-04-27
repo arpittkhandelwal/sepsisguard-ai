@@ -198,6 +198,92 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
+        {/* XAI Engine Section */}
+        <section id="technology" className="py-32 bg-slate-100/50 border-y border-slate-200 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="flex flex-col lg:flex-row gap-20 items-center">
+              <div className="lg:w-1/2 relative">
+                <div className="absolute -inset-4 bg-sky-200/50 blur-2xl rounded-full mix-blend-multiply"></div>
+                <img alt="ICU Clinical View" className="relative rounded-3xl shadow-xl w-full aspect-square object-cover border border-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiD046uKiEeAK44s-y8W7pZCqe4mN7BxF_v8ku7EOmbAMp2ndO53wkoNdaUhNCR3juxdOS3GxN1LEgSYtODen0zbJU50wHHawsYhRuruhBym-JAtaHPNfIaKx8FbU5REuIv8MUXAQyUGFicKooLMtdZGS_Hc42BKikd53Vvzavy67N1H2TvqDq-jWj8mWMQ6hwvXYJfjrbZSyc7MKU4-lGZfLYatu3NcyNXROTnE0L8zrWiChBsrlRhTPUUMCCi6uyrOWtDjXD83Q"/>
+              </div>
+              <div className="lg:w-1/2">
+                <h2 className="text-4xl font-black text-slate-900 mb-8 leading-tight">Beyond Black Boxes: <br/><span className="text-sky-600 underline decoration-sky-300 decoration-4 underline-offset-8">Transparent AI Engine</span></h2>
+                <div className="space-y-8">
+                  <div className="flex gap-6">
+                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-sky-600">biotech</span>
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Continuous Waveform Analysis</h4>
+                      <p className="font-medium text-slate-600">Our AI analyzes sub-second variations in EKG, SpO2, and plethysmograph signals to detect micro-instability.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-6">
+                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-sky-600">hub</span>
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Multimodal Data Fusion</h4>
+                      <p className="font-medium text-slate-600">Integration with Lab results, EHR notes, and bedside vitals creates a holistic patient digital twin.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-6">
+                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-sky-600">shield_with_heart</span>
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Human-in-the-Loop Design</h4>
+                      <p className="font-medium text-slate-600">Engineered by clinicians for clinicians. Alerts are explainable, actionable, and reduce cognitive burden.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Clinical Evidence Section */}
+        <section id="clinical" className="bg-white py-32 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="text-center mb-20">
+              <h2 className="text-sm font-bold text-sky-600 tracking-[0.2em] uppercase mb-4">Evidence Based Performance</h2>
+              <h3 className="text-4xl lg:text-5xl font-black text-slate-900">Real Clinical Impact</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-10 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between group hover:border-sky-300 hover:shadow-md transition-all">
+                <div>
+                  <span className="material-symbols-outlined text-sky-600 mb-6 text-4xl">schedule</span>
+                  <h4 className="text-xl font-bold text-slate-800 mb-2">Early Intervention</h4>
+                </div>
+                <div className="mt-12">
+                  <div className="text-5xl font-black text-sky-600">+8 hours</div>
+                  <p className="text-slate-600 mt-4 font-medium">Earlier detection of septic shock compared to standard EHR-based protocols.</p>
+                </div>
+              </div>
+              <div className="p-10 rounded-2xl bg-sky-600 text-white flex flex-col justify-between group shadow-[0_10px_30px_rgba(2,132,199,0.3)] ring-1 ring-sky-500 hover:-translate-y-1 transition-transform">
+                <div>
+                  <span className="material-symbols-outlined text-sky-200 mb-6 text-4xl">insights</span>
+                  <h4 className="text-xl font-bold text-white mb-2">Precision Intelligence</h4>
+                </div>
+                <div className="mt-12">
+                  <div className="text-5xl font-black text-white">94%</div>
+                  <p className="text-sky-100 mt-4 font-medium">Prediction confidence with near-zero false alert fatigue in pilot clinical studies.</p>
+                </div>
+              </div>
+              <div className="p-10 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between group hover:border-sky-300 hover:shadow-md transition-all">
+                <div>
+                  <span className="material-symbols-outlined text-sky-600 mb-6 text-4xl">trending_up</span>
+                  <h4 className="text-xl font-bold text-slate-800 mb-2">Patient Outcomes</h4>
+                </div>
+                <div className="mt-12">
+                  <div className="text-5xl font-black text-sky-600">82%</div>
+                  <p className="text-slate-600 mt-4 font-medium">Improvement in sepsis-related mortality outcomes across multi-site ICU integration.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
