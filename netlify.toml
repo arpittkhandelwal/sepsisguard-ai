@@ -1,5 +1,5 @@
 [build]
-  command = "cd sepsisguard-react && npm run build"
+  command = "npm run install-all && npm run build"
   publish = "sepsisguard-react/dist"
   functions = "sepsisguard-react/functions"
 
