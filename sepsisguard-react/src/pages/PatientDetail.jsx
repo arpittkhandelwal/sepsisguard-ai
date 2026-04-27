@@ -32,15 +32,20 @@ const PatientDetail = () => {
   useEffect(() => {
     let isInitialLoad = true;
     const fetchPatient = async () => {
-      const data = await api.getPatientById(id);
-      if (data) {
-        setPatient(data);
-        if (isInitialLoad) {
-          setSimulatedHr(data.vitals.hr);
-          setSimulatedMap(data.vitals.map);
-          isInitialLoad = false;
-          setLoading(false);
+      try {
+        const data = await api.getPatientById(id);
+        if (data) {
+          setPatient(data);
+          if (isInitialLoad) {
+            setSimulatedHr(data.vitals?.hr || 85);
+            setSimulatedMap(data.vitals?.map || 78);
+            isInitialLoad = false;
+            setLoading(false);
+          }
         }
+      } catch (e) {
+        console.error('PatientDetail fetch error:', e);
+        setLoading(false);
       }
     };
     fetchPatient();
@@ -105,7 +110,7 @@ const PatientDetail = () => {
               </div>
               <p className="text-on-surface-variant font-body-md mt-1">ID: #{patient.id} • {patient.age} Y/O {patient.gender === 'M' ? 'Male' : 'Female'} • Bed {patient.bed}</p>
               <div className="flex gap-md mt-sm">
-                <span className="text-label-caps text-on-surface-variant">ADMISSION: {patient.admissionDate.split('-')[0].trim()}</span>
+                <span className="text-label-caps text-on-surface-variant">ADMISSION: {(patient.admissionDate || 'N/A').split('-')[0].trim()}</span>
                 <span className="text-label-caps text-on-surface-variant">ATTENDING: {(patient.attending || 'UNASSIGNED').toUpperCase()}</span>
               </div>
             </div>
