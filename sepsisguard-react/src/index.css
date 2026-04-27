@@ -59,3 +59,24 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
+
+.waveform-animate {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: waveform 5s linear infinite;
+}
+
+@keyframes waveform {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes progress {
+  0% { width: 0; opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { width: 100%; opacity: 0.5; }
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}

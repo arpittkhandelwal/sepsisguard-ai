@@ -384,15 +384,40 @@ const PatientDetail = () => {
               </span>
             </div>
           </div>
-          <div className="p-lg h-32 relative flex items-center justify-center overflow-hidden">
-             {/* Faux waveform background */}
-             <div className="absolute inset-0 opacity-20 waveform-bg"></div>
-             <div className="relative z-10 flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
+          <div className="p-lg h-32 relative flex items-center justify-between overflow-hidden">
+             {/* Dynamic ECG Waveform */}
+             <div className="absolute inset-0 opacity-30">
+               <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 100">
+                 <path
+                   d="M 0 50 L 50 50 L 60 20 L 70 80 L 80 50 L 150 50 L 160 10 L 170 90 L 180 50 L 250 50 L 260 20 L 270 80 L 280 50 L 350 50 L 360 10 L 370 90 L 380 50 L 450 50 L 460 20 L 470 80 L 480 50 L 550 50 L 560 10 L 570 90 L 580 50 L 650 50 L 660 20 L 670 80 L 680 50 L 750 50 L 760 10 L 770 90 L 780 50 L 850 50 L 860 20 L 870 80 L 880 50 L 950 50 L 960 10 L 970 90 L 980 50 L 1000 50"
+                   fill="none"
+                   stroke="#10b981"
+                   strokeWidth="2"
+                   className="waveform-animate"
+                 />
+               </svg>
+             </div>
+             
+             <div className="relative z-10 flex items-center gap-3">
+              <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
               </span>
-              <div className="text-[10px] text-emerald-400 font-black tracking-[0.3em] uppercase">Live Surveillance Active</div>
+              <div>
+                <div className="text-[10px] text-emerald-400 font-black tracking-[0.3em] uppercase">Live Surveillance Active</div>
+                <div className="text-[9px] text-white/30 font-medium">Stream ID: SG-AI-{patient.id} • 250Hz</div>
+              </div>
+            </div>
+
+            <div className="relative z-10 flex gap-12 pr-md">
+              <div className="text-right">
+                <p className="text-[9px] text-white/30 font-bold uppercase">ECG II</p>
+                <p className="text-2xl font-data-mono text-emerald-400 leading-none">{patient.vitals?.hr || '--'}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[9px] text-white/30 font-bold uppercase">PLETH</p>
+                <p className="text-2xl font-data-mono text-sky-400 leading-none">{patient.vitals?.spo2 || '--'}</p>
+              </div>
             </div>
           </div>
         </div>

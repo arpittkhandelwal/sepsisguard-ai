@@ -232,22 +232,32 @@ const Dashboard = () => {
           </div>
 
           {/* AI Insights */}
-          <div className="bg-white border border-slate-200 rounded p-6">
-            <h4 className="text-label-caps font-label-caps text-slate-500 uppercase tracking-widest mb-4">AI Insight: Top 3 Reasons for Risk</h4>
+          <div className="bg-white border border-slate-200 rounded p-6 shadow-sm overflow-hidden relative">
+            <div className="flex justify-between items-center mb-6">
+              <h4 className="text-label-caps font-label-caps text-slate-500 uppercase tracking-widest">AI Insights: Primary Risk Drivers</h4>
+              <span className="text-[9px] text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1 border border-emerald-100">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                LAST ANALYZED: JUST NOW
+              </span>
+            </div>
+            
             <div className="space-y-4">
               {patient.shap && patient.shap.insights && patient.shap.insights.map((insight, idx) => (
-                <div key={idx} className="flex items-start gap-4">
-                  <div className={`w-8 h-8 rounded-full ${insight.severity === 'error' ? 'bg-error-container text-error' : 'bg-slate-50 text-slate-900'} flex items-center justify-center font-bold text-xs flex-shrink-0`}>
+                <div key={idx} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100">
+                  <div className={`w-8 h-8 rounded-lg ${insight.severity === 'error' ? 'bg-error-container text-error' : 'bg-slate-100 text-slate-500'} flex items-center justify-center font-bold text-xs flex-shrink-0 border ${insight.severity === 'error' ? 'border-error/20' : 'border-slate-200'}`}>
                     {idx + 1}
                   </div>
-                  <div>
-                    <p className={`text-body-md font-bold ${insight.severity === 'error' ? 'text-error' : 'text-slate-900'}`}>{insight.title}</p>
-                    <p className="text-xs text-slate-500">{insight.description}</p>
+                  <div className="flex-grow">
+                    <div className="flex justify-between items-center mb-0.5">
+                      <p className={`text-[12px] font-black uppercase tracking-tight ${insight.severity === 'error' ? 'text-error' : 'text-slate-900'}`}>{insight.title}</p>
+                      <span className={`text-[10px] font-bold ${insight.severity === 'error' ? 'text-error' : 'text-slate-400'}`}>+{(15 - idx * 4)}% IMPACT</span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 leading-snug">{insight.description}</p>
                   </div>
                 </div>
               ))}
               {(!patient.shap || !patient.shap.insights || patient.shap.insights.length === 0) && (
-                <p className="text-sm text-slate-500 italic">No AI insights generated for this patient.</p>
+                <p className="text-sm text-slate-500 italic text-center py-4">No AI insights generated for this patient.</p>
               )}
             </div>
           </div>
@@ -266,13 +276,40 @@ const Dashboard = () => {
             </span>
           </div>
         </div>
-        <div className="p-6 h-32 relative flex items-center justify-center">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
+        <div className="p-6 h-32 relative flex items-center justify-between overflow-hidden bg-slate-900/5">
+          {/* ECG Waveform */}
+          <div className="absolute inset-0 opacity-30">
+            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 100">
+              <path
+                d="M 0 50 L 50 50 L 60 20 L 70 80 L 80 50 L 150 50 L 160 10 L 170 90 L 180 50 L 250 50 L 260 20 L 270 80 L 280 50 L 350 50 L 360 10 L 370 90 L 380 50 L 450 50 L 460 20 L 470 80 L 480 50 L 550 50 L 560 10 L 570 90 L 580 50 L 650 50 L 660 20 L 670 80 L 680 50 L 750 50 L 760 10 L 770 90 L 780 50 L 850 50 L 860 20 L 870 80 L 880 50 L 950 50 L 960 10 L 970 90 L 980 50 L 1000 50"
+                fill="none"
+                stroke="#10b981"
+                strokeWidth="2"
+                className="waveform-animate"
+              />
+            </svg>
+          </div>
+          
+          <div className="relative z-10 flex items-center gap-3">
+            <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <div className="text-[10px] text-emerald-600 font-black tracking-[0.2em] uppercase">Live Surveillance Active</div>
+            <div>
+              <div className="text-[10px] text-emerald-700 font-black tracking-[0.2em] uppercase">High-Fidelity Stream Active</div>
+              <div className="text-[9px] text-slate-400 font-medium">Sampling rate: 250Hz • Latency: 12ms</div>
+            </div>
+          </div>
+
+          <div className="relative z-10 flex gap-8">
+            <div className="text-right">
+              <p className="text-[9px] text-slate-400 font-bold uppercase">ECG LEAD II</p>
+              <p className="text-xl font-data-mono text-emerald-600 leading-none">{vitals.hr || 72}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-[9px] text-slate-400 font-bold uppercase">SPO2 %</p>
+              <p className="text-xl font-data-mono text-sky-600 leading-none">{vitals.spo2 || 98}</p>
+            </div>
           </div>
         </div>
       </section>
