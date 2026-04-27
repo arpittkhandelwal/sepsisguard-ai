@@ -144,11 +144,19 @@ export const api = {
       const currentRisk = patient.riskscore || patient.riskScore || 50;
       const vitals = patient.vitals || {};
       
-      // 2. Calculate new risk
+      // 2. Calculate new risk with dynamic impact
       let predictedRisk = currentRisk;
-      if (hr < (vitals.hr || 80)) predictedRisk -= ((vitals.hr || 80) - hr) * 0.2;
-      if (map > (vitals.map || 65)) predictedRisk -= (map - (vitals.map || 65)) * 0.5;
-      predictedRisk = Math.max(15, Math.min(95, Math.round(predictedRisk)));
+      
+      // Heart Rate Impact (Improvement if HR lowered towards 75, penalty if raised)
+      const hrDiff = (vitals.hr || 80) - hr;
+      predictedRisk -= hrDiff * 0.25; 
+      
+      // MAP Impact (Improvement if MAP raised towards 85, penalty if lowered)
+      const mapDiff = map - (vitals.map || 65);
+      predictedRisk -= mapDiff * 0.8;
+
+      // Ensure risk stays within 2% to 98%
+      predictedRisk = Math.max(2, Math.min(98, Math.round(predictedRisk)));
       const improvement = currentRisk - predictedRisk;
 
       // 3. Create intervention log
