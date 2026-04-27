@@ -13,7 +13,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../sepsisguard-react/dist')));
 
 const pool = new Pool({
-  connectionString: 'postgres://postgres:Arpit@946040@db.posldhsqknqyybwlkzxj.supabase.co:5432/postgres'
+  connectionString: 'postgres://postgres:Arpit%40946040@db.posldhsqknqyybwlkzxj.supabase.co:5432/postgres',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 app.get('/api/patients', async (req, res) => {
@@ -21,6 +24,7 @@ app.get('/api/patients', async (req, res) => {
     const result = await pool.query('SELECT * FROM patients ORDER BY id DESC');
     res.json(result.rows);
   } catch (err) {
+    console.error('Database Error:', err);
     res.status(500).json({ error: err.message });
   }
 });
