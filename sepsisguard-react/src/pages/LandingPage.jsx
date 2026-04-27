@@ -208,7 +208,7 @@ const LandingPage = () => {
             <span className="text-lg font-black tracking-tighter text-slate-900 uppercase">SepsisGuard AI</span>
           </div>
           <div className="text-slate-500 text-sm font-medium">
-            © 2026 NevUp Hackathon Submission.
+            © 2026 Arpit Khandelwal.
           </div>
           <div className="flex gap-6">
             <a href="#" className="text-slate-400 hover:text-sky-600 transition-colors"><span className="material-symbols-outlined">code</span></a>
