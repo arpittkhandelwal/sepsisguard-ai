@@ -111,7 +111,6 @@ const Dashboard = () => {
                 </div>
                 <p className="text-body-md font-body-md text-slate-600">Patient meets SIRS criteria with evidence of hypoperfusion. Recommended immediate IV fluid resuscitation and empiric antibiotic therapy.</p>
               </div>
-            </div>
           )}
 
           <div className="grid grid-cols-4 gap-4">
