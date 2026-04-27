@@ -38,12 +38,12 @@ const Dashboard = () => {
     <Layout>
       <div className="mb-8 flex justify-between items-end">
         <div>
-          <span className="text-label-caps font-label-caps uppercase text-slate-500 tracking-[0.2em]">Patient Case ID: {patient.id.replace('PT-', '')}-A</span>
+          <span className="text-label-caps font-label-caps uppercase text-slate-500 tracking-[0.2em]">Patient Case ID: {(patient.id || '').replace('PT-', '')}-A</span>
           <h2 className="text-headline-lg font-headline-lg text-slate-900 mt-1">{patient.name}, {patient.age}{patient.gender}</h2>
         </div>
         <div className="text-right">
           <p className="text-label-caps font-label-caps text-slate-500 uppercase">Admission Time</p>
-          <p className="text-data-mono font-data-mono text-slate-900">{patient.admissionDate}</p>
+          <p className="text-data-mono font-data-mono text-slate-900">{patient.admissionDate || 'N/A'}</p>
         </div>
       </div>
 
@@ -82,11 +82,11 @@ const Dashboard = () => {
           <div className="relative w-48 h-48 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90">
               <circle cx="96" cy="96" fill="none" r="88" stroke="#F1F5F9" strokeWidth="12"></circle>
-              <circle cx="96" cy="96" fill="none" r="88" stroke={patient.riskScore > 75 ? "#ba1a1a" : "#0F172A"} strokeDasharray="552.92" strokeDashoffset={552.92 - (552.92 * patient.riskScore / 100)} strokeLinecap="round" strokeWidth="12"></circle>
+              <circle cx="96" cy="96" fill="none" r="88" stroke={(patient.riskScore || 0) > 75 ? "#ba1a1a" : "#0F172A"} strokeDasharray="552.92" strokeDashoffset={(552.92 - (552.92 * (patient.riskScore || 0) / 100)).toFixed(2)} strokeLinecap="round" strokeWidth="12"></circle>
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-vital-sign font-vital-sign text-slate-900">{patient.riskScore}%</span>
-              <span className={`text-label-caps font-label-caps ${patient.riskScore > 75 ? 'text-error' : 'text-primary'} uppercase`}>{patient.status}</span>
+              <span className="text-vital-sign font-vital-sign text-slate-900">{patient.riskScore || 0}%</span>
+              <span className={`text-label-caps font-label-caps ${(patient.riskScore || 0) > 75 ? 'text-error' : 'text-primary'} uppercase`}>{patient.status || 'STABLE'}</span>
             </div>
           </div>
           <div className="mt-8 text-body-md font-body-md text-slate-500 max-w-[200px]">

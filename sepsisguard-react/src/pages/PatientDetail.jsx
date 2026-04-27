@@ -245,13 +245,13 @@ const PatientDetail = () => {
                 
                 {/* Generate Path from Real risk_history */}
                 {(() => {
-                  const history = patient.risk_history || [];
+                  const history = (patient.risk_history || []).filter(h => typeof h.riskScore === 'number' && !isNaN(h.riskScore));
                   if (history.length < 2) return null;
                   
                   const points = history.map((h, i) => {
                     const x = (i / (history.length - 1)) * 800;
                     const y = 200 - (h.riskScore / 100) * 180;
-                    return `${x},${y}`;
+                    return `${x.toFixed(2)},${y.toFixed(2)}`;
                   }).join(' L ');
                   
                   return (
