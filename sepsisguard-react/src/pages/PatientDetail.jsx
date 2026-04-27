@@ -397,8 +397,9 @@ const PatientDetail = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="col-span-12 lg:col-span-4 space-y-lg">
+      <div className="col-span-12 lg:col-span-4 space-y-lg">
           <div className="bg-white border border-outline-variant rounded-lg overflow-hidden shadow-sm">
             <div className="bg-slate-50 px-md py-sm border-b border-outline-variant flex items-center justify-between">
               <div className="flex items-center gap-sm">
