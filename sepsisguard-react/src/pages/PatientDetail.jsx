@@ -33,14 +33,17 @@ const PatientDetail = () => {
     let isInitialLoad = true;
     const fetchPatient = async () => {
       const data = await api.getPatientById(id);
-      if (data) {
+      if (data && data.vitals) {
         setPatient(data);
         if (isInitialLoad) {
-          setSimulatedHr(data.vitals.hr);
-          setSimulatedMap(data.vitals.map);
+          setSimulatedHr(data.vitals.hr || 80);
+          setSimulatedMap(data.vitals.map || 70);
           isInitialLoad = false;
           setLoading(false);
         }
+      } else if (data === null || !data) {
+        setPatient(null);
+        setLoading(false);
       }
     };
     fetchPatient();
