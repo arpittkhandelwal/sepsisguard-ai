@@ -8,22 +8,17 @@ const MOCK_PATIENTS = [
 
 export const api = {
   getPatients: async () => {
-    try {
-      const res = await fetch(`${API_URL}/patients`);
-      if (!res.ok) throw new Error('API Down');
-      return await res.json();
-    } catch (e) {
-      console.warn("SepsisGuard: Using Mock Data. (Ensure your database is connected)");
-      return MOCK_PATIENTS;
+    const res = await fetch(`${API_URL}/patients`);
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `API Error: ${res.status}`);
     }
+    return await res.json();
   },
   getPatientById: async (id) => {
-    try {
-      const res = await fetch(`${API_URL}/patients/${id}`);
-      return await res.json();
-    } catch (e) {
-      return MOCK_PATIENTS.find(p => p.id === id) || MOCK_PATIENTS[0];
-    }
+    const res = await fetch(`${API_URL}/patients/${id}`);
+    if (!res.ok) throw new Error(`Patient ${id} not found`);
+    return await res.json();
   },
   createPatient: async (patientData) => {
     try {
