@@ -1,80 +1,49 @@
 const API_URL = '/api';
 
-// Fail-Safe Mock Data
-const MOCK_PATIENTS = [
-  { id: 'PT-8821', name: 'Eleanor Wright', age: 68, gender: 'F', bed: 'Bed 104', status: 'Critical', riskScore: 82, riskTrend: 'up', department: 'Medical ICU', bmi: 26.4, vitals: { hr: 112, map: 65, temp: 101.2, spo2: 94 } },
-  { id: 'PT-8822', name: 'James Miller', age: 55, gender: 'M', bed: 'Bed 12', status: 'High Risk', riskScore: 65, riskTrend: 'up', department: 'Emergency Ward', bmi: 28.1, vitals: { hr: 95, map: 78, temp: 99.8, spo2: 96 } }
-];
-
 export const api = {
   getPatients: async () => {
-    try {
-      const res = await fetch(`${API_URL}/patients`);
-      if (!res.ok) throw new Error('API Down');
-      return await res.json();
-    } catch (e) {
-      console.warn("SepsisGuard: Using Mock Data. (Ensure your database is connected)");
-      return MOCK_PATIENTS;
-    }
+    const res = await fetch(`${API_URL}/patients`);
+    if (!res.ok) throw new Error('Failed to fetch patients');
+    return await res.json();
   },
   getPatientById: async (id) => {
-    try {
-      const res = await fetch(`${API_URL}/patients/${id}`);
-      return await res.json();
-    } catch (e) {
-      return MOCK_PATIENTS.find(p => p.id === id) || MOCK_PATIENTS[0];
-    }
+    const res = await fetch(`${API_URL}/patients/${id}`);
+    if (!res.ok) throw new Error('Patient not found');
+    return await res.json();
   },
   createPatient: async (patientData) => {
-    try {
-      const res = await fetch(`${API_URL}/patients`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(patientData)
-      });
-      return await res.json();
-    } catch (e) {
-      return { ...patientData, id: `PT-${Math.floor(Math.random()*9000)+1000}`, riskScore: 45, status: 'Stable' };
-    }
+    const res = await fetch(`${API_URL}/patients`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(patientData)
+    });
+    return await res.json();
   },
   getAlerts: async () => {
-    try {
-      const res = await fetch(`${API_URL}/alerts`);
-      return await res.json();
-    } catch (e) {
-      return [];
-    }
+    const res = await fetch(`${API_URL}/alerts`);
+    if (!res.ok) return [];
+    return await res.json();
   },
   getAnalytics: async () => {
-    try {
-      const res = await fetch(`${API_URL}/analytics`);
-      return await res.json();
-    } catch (e) {
-      return {};
-    }
+    const res = await fetch(`${API_URL}/analytics`);
+    if (!res.ok) return {};
+    return await res.json();
   },
   updatePatientStatus: async (id, status) => {
-    try {
-      const res = await fetch(`${API_URL}/patients/${id}/status`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
-      });
-      return await res.json();
-    } catch (e) {
-      return { success: true };
-    }
+    const res = await fetch(`${API_URL}/patients/${id}/status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status })
+    });
+    return await res.json();
   },
   simulateIntervention: async (id, hr, map) => {
-    try {
-      const res = await fetch(`${API_URL}/patients/${id}/simulate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hr, map })
-      });
-      return await res.json();
-    } catch (e) {
-      return { currentRisk: 75, predictedRisk: 45, improvement: 30 };
-    }
+    const res = await fetch(`${API_URL}/patients/${id}/simulate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hr, map })
+    });
+    if (!res.ok) throw new Error('Simulation failed');
+    return await res.json();
   }
 };
