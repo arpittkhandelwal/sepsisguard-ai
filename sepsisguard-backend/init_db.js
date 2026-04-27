@@ -61,18 +61,21 @@ const initialPatients = [
     department: "Medical ICU",
     bed: "Bed 104",
     bmi: 26.4,
-    vitals: { hr: 112, bpSystolic: 88, bpDiastolic: 54, map: 65, spo2: 94, temp: 101.2, lactate: 2.4, wbc: 18.5, creatinine: 1.8, platelets: 120 },
+    vitals: { 
+      hr: 112, bpSystolic: 88, bpDiastolic: 54, map: 65, spo2: 94, temp: 101.2, 
+      lactate: 3.4, wbc: 18.5, creatinine: 1.8, platelets: 120,
+      bilirubin: 1.4, gcs: 14, pao2_fio2: 380 
+    },
     shap: {
       features: [
-        { name: "Lactate", value: 2.4, impact: 0.35 },
-        { name: "Heart Rate", value: 112, impact: 0.25 },
+        { name: "Lactate", value: 3.4, impact: 0.35 },
+        { name: "Creatinine", value: 1.8, impact: 0.25 },
         { name: "MAP", value: 65, impact: 0.20 },
-        { name: "WBC", value: 18.5, impact: 0.10 }
+        { name: "Platelets", value: 120, impact: 0.15 }
       ],
       insights: [
-        { title: "Lactate Trend", description: "Lactate increased by 0.6 mmol/L in the last 2 hours.", severity: "error" },
-        { title: "Hemodynamics", description: "Sustained hypotension despite fluid challenge.", severity: "error" },
-        { title: "Infection", description: "Elevated WBC with left shift indicates severe infection.", severity: "warning" }
+        { title: "Renal Impairment", description: "Creatinine increased to 1.8 mg/dL (SOFA +1)", severity: "error" },
+        { title: "Hemodynamics", description: "Persistent MAP < 65 requiring fluid resuscitation.", severity: "error" }
       ]
     },
     interventions: [
@@ -82,7 +85,7 @@ const initialPatients = [
     recommendations: [
       "Initiate Vasopressors if MAP < 65 after fluids",
       "Draw repeat Lactate in 2 hours",
-      "Consider Central Line Placement"
+      "Surgical consult for source control"
     ],
     risk_history: [
       { time: "-12h", riskScore: 15 },
@@ -110,7 +113,11 @@ const initialPatients = [
     department: "Emergency Ward",
     bed: "Bed 12",
     bmi: 28.1,
-    vitals: { hr: 95, bpSystolic: 105, bpDiastolic: 65, map: 78, spo2: 96, temp: 99.8, lactate: 1.8, wbc: 14.2, creatinine: 1.1, platelets: 180 },
+    vitals: { 
+      hr: 95, bpSystolic: 105, bpDiastolic: 65, map: 78, spo2: 96, temp: 99.8, 
+      lactate: 1.8, wbc: 14.2, creatinine: 1.1, platelets: 180,
+      bilirubin: 0.8, gcs: 15, pao2_fio2: 420
+    },
     shap: { features: [], insights: [] },
     interventions: [],
     recommendations: [],
@@ -136,7 +143,11 @@ const initialPatients = [
     department: "Surgical ICU",
     bed: "Bed 205",
     bmi: 22.3,
-    vitals: { hr: 82, bpSystolic: 118, bpDiastolic: 72, map: 87, spo2: 98, temp: 98.4, lactate: 1.1, wbc: 10.5, creatinine: 0.9, platelets: 210 },
+    vitals: { 
+      hr: 82, bpSystolic: 118, bpDiastolic: 72, map: 87, spo2: 98, temp: 98.4, 
+      lactate: 1.1, wbc: 10.5, creatinine: 0.9, platelets: 210,
+      bilirubin: 0.6, gcs: 15, pao2_fio2: 450
+    },
     shap: { features: [], insights: [] },
     interventions: [],
     recommendations: [],
@@ -159,7 +170,11 @@ const initialPatients = [
     department: "General Ward",
     bed: "Bed 314",
     bmi: 25.6,
-    vitals: { hr: 75, bpSystolic: 125, bpDiastolic: 80, map: 95, spo2: 99, temp: 98.6, lactate: 0.9, wbc: 7.2, creatinine: 0.8, platelets: 250 },
+    vitals: { 
+      hr: 75, bpSystolic: 125, bpDiastolic: 80, map: 95, spo2: 99, temp: 98.6, 
+      lactate: 0.9, wbc: 7.2, creatinine: 0.8, platelets: 250,
+      bilirubin: 0.5, gcs: 15, pao2_fio2: 480
+    },
     shap: { features: [], insights: [] },
     interventions: [],
     recommendations: [],

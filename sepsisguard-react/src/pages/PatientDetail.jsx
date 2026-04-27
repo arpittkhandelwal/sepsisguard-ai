@@ -292,35 +292,67 @@ const PatientDetail = () => {
         </div>
 
         <div className="col-span-12 lg:col-span-4 space-y-lg">
-          <div className="bg-white border border-outline-variant rounded-lg overflow-hidden shadow-sm">
+          <div className="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
             <div className="bg-slate-50 px-md py-sm border-b border-outline-variant flex items-center justify-between">
               <div className="flex items-center gap-sm">
                 <span className="material-symbols-outlined text-slate-700 text-sm" data-icon="calculate">calculate</span>
                 <h3 className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">SOFA SCORE MONITORING</h3>
               </div>
-              <div className={`px-2 py-0.5 rounded text-[10px] font-bold ${patient.riskScore > 70 ? 'bg-error-container text-error' : 'bg-emerald-100 text-emerald-700'}`}>
-                SCORE: {Math.floor(patient.riskScore / 10)}
-              </div>
+              {(() => {
+                const v = patient.vitals;
+                let score = 0;
+                if ((v.pao2_fio2 || 400) < 400) score += 1;
+                if ((v.platelets || 200) < 150) score += 1;
+                if ((v.bilirubin || 1.0) > 1.2) score += 1;
+                if ((v.map || 80) < 70) score += 1;
+                if ((v.gcs || 15) < 15) score += 1;
+                if ((v.creatinine || 1.0) > 1.2) score += 1;
+                
+                return (
+                  <div className={`px-2 py-0.5 rounded text-[10px] font-black ${score >= 2 ? 'bg-error text-white animate-pulse' : 'bg-emerald-100 text-emerald-700'}`}>
+                    SCORE: {score}
+                  </div>
+                );
+              })()}
             </div>
             <div className="p-md space-y-sm">
-              {[
-                { system: 'Respiration (PaO2/FiO2)', score: patient.vitals.spo2 < 92 ? 3 : 1 },
-                { system: 'Coagulation (Platelets)', score: (patient.vitals.platelets || 180) < 100 ? 2 : 0 },
-                { system: 'Liver (Bilirubin)', score: 1 },
-                { system: 'Cardiovascular (MAP)', score: patient.vitals.map < 65 ? 3 : 0 },
-                { system: 'CNS (GCS Score)', score: 0 },
-                { system: 'Renal (Creatinine)', score: (patient.vitals.creatinine || 1.1) > 1.5 ? 2 : 0 }
-              ].map((item, i) => (
-                <div key={i} className="flex justify-between items-center text-[11px]">
-                  <span className="text-slate-600">{item.system}</span>
-                  <div className="flex gap-1">
-                    {[0, 1, 2, 3, 4].map(s => (
-                      <div key={s} className={`w-2 h-2 rounded-full ${item.score >= s ? (item.score >= 3 ? 'bg-error' : 'bg-warning') : 'bg-slate-100'}`}></div>
+              {(() => {
+                const v = patient.vitals;
+                const systems = [
+                  { name: 'Respiration (PaO2/FiO2)', val: v.pao2_fio2 || 400, score: (v.pao2_fio2 < 400 ? 1 : 0), limit: '< 400' },
+                  { name: 'Coagulation (Platelets)', val: v.platelets || 200, score: (v.platelets < 150 ? 1 : 0), limit: '< 150' },
+                  { name: 'Liver (Bilirubin)', val: v.bilirubin || 1.0, score: (v.bilirubin > 1.2 ? 1 : 0), limit: '> 1.2' },
+                  { name: 'Cardiovascular (MAP)', val: v.map || 80, score: (v.map < 70 ? 1 : 0), limit: '< 70' },
+                  { name: 'CNS (GCS Score)', val: v.gcs || 15, score: (v.gcs < 15 ? 1 : 0), limit: '< 15' },
+                  { name: 'Renal (Creatinine)', val: v.creatinine || 1.0, score: (v.creatinine > 1.2 ? 1 : 0), limit: '> 1.2' }
+                ];
+
+                const total = systems.reduce((acc, s) => acc + s.score, 0);
+
+                return (
+                  <>
+                    {systems.map((s, i) => (
+                      <div key={i} className="flex justify-between items-center text-[11px]">
+                        <span className="text-slate-600">{s.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[9px] font-bold text-slate-400">{s.val}</span>
+                          <div className={`w-4 h-4 rounded flex items-center justify-center text-[9px] font-black ${s.score > 0 ? 'bg-error text-white' : 'bg-slate-100 text-slate-400'}`}>
+                            {s.score}
+                          </div>
+                        </div>
+                      </div>
                     ))}
-                  </div>
-                </div>
-              ))}
-              <p className="text-[9px] text-slate-400 mt-2 leading-tight italic">SOFA Score ≥ 2 indicates a 10% or greater risk of in-hospital mortality.</p>
+                    
+                    {total >= 2 && (
+                      <div className="mt-4 p-2 bg-error/5 border border-error/10 rounded-lg">
+                        <p className="text-[10px] font-bold text-error leading-tight">
+                          ⚠️ SOFA Score ≥ 2 indicates a 10% or greater risk of in-hospital mortality.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </div>
 
