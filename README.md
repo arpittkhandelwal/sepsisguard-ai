@@ -1,184 +1,72 @@
----
-title: SepsisGuard AI
-emoji: 🧬
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
-app_port: 7860
----
+# 🛡️ SepsisGuard AI
 
-# 🧬 SepsisGuard AI  
-### Predictive Intelligence for Critical Care
+**SepsisGuard AI** is a state-of-the-art, high-fidelity clinical dashboard designed for the real-time detection, monitoring, and proactive intervention of sepsis in hospital environments.
 
-> 🏆 **GeekVerse Hackathon 2026** - GeeksforGeeks × LPU  
-> *Turning ICU data into actionable, life-saving decisions in real time*
+Built for the modern clinician, this platform bridges the gap between raw EHR data and actionable, life-saving insights using predictive AI modeling and interactive XAI (Explainable AI).
 
 ---
 
-## ⚠️ The Problem: Sepsis is Fast. Detection is Not.
+## ✨ Core Features
 
-*   **Causes 1 in 5 deaths globally**
-*   Every hour of delay = **+8% mortality risk**
-*   Current systems (SIRS/qSOFA):
-    *   ❌ Reactive, not predictive  
-    *   ❌ High false alerts → clinician fatigue  
-    *   ❌ No longitudinal patient insight  
+### 1. Live Risk Stratification & Monitoring
+- **Real-Time Dashboards:** Monitor live sepsis risk scores for an entire ward at a glance.
+- **High-Fidelity Telemetry:** Dynamic UI mimicking live ECG Lead II and PLETH waveforms for critical patient observation.
+- **Vital Sign Tracking:** Seamless tracking of HR, BP, Temp, and SpO2 with visual severity indicators.
 
-👉 **By the time alerts trigger, it’s often already late.**
+### 2. Explainable AI (XAI) Insights
+- **Why The Alert?:** SepsisGuard doesn't just give a risk score. It provides "Top 3 Reasons for Risk" (e.g., Elevated Lactate, Tachycardia) so clinicians understand the driving factors behind the AI's prediction.
+- **Pattern Recognition:** Visual timeline markers showing exactly when the AI model predicted a risk trajectory vs. when clinical diagnosis occurred.
 
----
+### 3. "What-If" Intervention Simulator
+- **Predictive Outcomes:** Clinicians can test theoretical interventions (e.g., "If I give fluids and lower the HR to 85, and raise MAP to 75, what happens to the risk score?").
+- **Simulated Trajectories:** Real-time feedback calculating the theoretical improvement in patient survivability before touching the patient.
 
-## 🚀 The Breakthrough: SepsisGuard AI
+### 4. One-Click AI SBAR Handovers
+- **Clinical Efficiency:** Instantly generate a Situation, Background, Assessment, and Recommendation (SBAR) handover note directly from the patient's live data.
+- **Ready for EHR:** Standardized text that can be copied directly into epic/cerner or during shift changes.
 
-> **Detects sepsis 6–12 hours earlier than clinical protocols**
-
-SepsisGuard AI transforms fragmented ICU data into a real-time predictive intelligence system that doesn’t just warn—it guides intervention.
-
----
-
-## 🔥 What Makes This a Winning System
-
-### 🧠 1. Early Risk Prediction Engine
-*   Continuous analysis of vitals + labs  
-*   Detects subtle physiological drift  
-*   Generates live risk trajectory (0–100%)
-
-👉 *“This patient looks stable… until you see the curve.”*
+### 5. Patient Registry & Triage
+- **Smart Filtering:** Filter the patient registry instantly by Status (Critical, High Risk, Watch, Stable), Department, or Search by Name/ID.
+- **Instant Triage:** Automatically sorts the most critical patients to the top of the queue for immediate attention.
 
 ---
 
-### 📈 2. Clinical Risk Timeline (Demo Weapon)
-*   Visualizes:
-    *   🟢 Model Prediction Point  
-    *   🔴 Clinical Diagnosis Point  
-*   Shows **+8.5 hours** early detection advantage
+## 🛠️ Technical Architecture
 
-👉 **Turns abstract AI into visible proof.**
-
----
-
-### 🧪 3. Digital Twin Simulator (Game-Changer)
-*   Simulate interventions **BEFORE** applying them:
-    *   Adjust BP, HR, MAP  
-    *   Predict risk reduction instantly  
-
-**Example:**  
-*Current Risk: 84% → After Intervention: 62% ↓ -22% risk*
-
-👉 **Doctors see impact before action.**
+- **Frontend Framework:** React 19 + Vite for ultra-fast HMR and optimized production builds.
+- **Styling:** Tailwind CSS v4 + PostCSS, featuring a custom, clinical-grade color palette and glassmorphic UI components.
+- **Database / Backend:** Supabase (PostgreSQL) using direct `@supabase/supabase-js` client connection for real-time, serverless architecture.
+- **Hosting:** Fully deployed and automatically built via Netlify CI/CD.
+- **Icons & Typography:** Google Material Symbols (Outlined) and Inter font family for maximum readability.
 
 ---
 
-### 🧠 4. Explainable AI (SHAP)
-*   No black-box decisions  
-*   Shows **why** risk is high:
-    *   +24% Lactate  
-    *   +18% Heart Rate  
-    *   +21% Low BP  
+## 🚀 Getting Started (Local Development)
 
-👉 **Builds clinical trust.**
+1. **Install Dependencies:**
+   ```bash
+   npm run install-all
+   ```
 
----
+2. **Start the Vite Development Server:**
+   ```bash
+   cd sepsisguard-react
+   npm run dev
+   ```
 
-### 🩺 5. AI-Powered Clinical Decision Panel
-*Not just prediction—actionable care*
-
-*   ✅ Initiate IV Fluid Resuscitation (30ml/kg)
-*   ✅ Start Broad-Spectrum Antibiotics
-*   ✅ Monitor Lactate (2h interval)
-*   ✅ Consider Vasopressors if MAP < 65
-
-👉 **This is what makes it hospital-ready.**
+3. **Build for Production:**
+   ```bash
+   npm run build
+   ```
 
 ---
 
-### 🚨 6. Real-Time ICU Alert System
-*   Severity-based alerts (Critical / High / Watch)
-*   Smart prioritization → reduces alert fatigue
-*   Multi-patient monitoring + priority queue
+## 🎨 Design System
+
+SepsisGuard AI utilizes a custom Tailwind theme defined in `tailwind.config.js`:
+- **Primary:** Deep clinical blues (`#005B9F`)
+- **Error/Critical:** High-contrast clinical reds (`#ba1a1a`) for immediate attention.
+- **Typography:** Specialized classes like `text-vital-sign`, `text-headline-lg`, and `text-label-caps` to strictly mirror physical hospital monitors.
 
 ---
-
-### 📊 7. Clinical Analytics Engine
-*   **Early Detection Gain:** +7.2 hrs
-*   **False Positive Rate:** 2.1%
-*   **Survival Improvement:** +14.2%
-
-👉 **Proves real-world impact.**
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Stack |
-|------|------|
-| **Frontend** | React 18 + Vite |
-| **UI System** | Tailwind CSS (Custom Clinical Design System) |
-| **Backend** | Node.js + Express (Serverless Functions) |
-| **Database** | PostgreSQL (Supabase) |
-| **AI Logic** | Time-series ML Simulations |
-| **Deployment** | Hugging Face Spaces (Unified Build) |
-
----
-
-## ⚙️ System Architecture
-
-```
-[ Patient Vitals Stream ]
-         ↓
-[ Feature Engineering Layer ]
-         ↓
-[ ML Risk Prediction Engine ]
-         ↓
-[ SHAP Explainability Layer ]
-         ↓
-[ Decision Engine + Alerts ]
-         ↓
-[ React Dashboard (Real-Time UI) ]
-```
-
----
-
-## 🎯 Demo Flow (Winning Sequence)
-
-1.  **Patient Appears Stable:** Initial vitals look normal.
-2.  **Risk Gradually Rises:** AI detects subtle trends in the timeline.
-3.  **Early Alert:** ⚠ Alert triggered 8 hours before clinical protocols.
-4.  **Explainability:** SHAP breakdown explains the "Why" (e.g., rising lactate).
-5.  **Simulation:** Use the "Digital Twin" to project treatment impact.
-6.  **Validation:** Risk drops in simulation → Intervention validated.
-
-👉 **Prediction → Explanation → Action → Outcome**
-
----
-
-## 🚀 Deployment & Installation
-
-### Live Demo
-🔗 [Hugging Face Space](https://huggingface.co/spaces/arpitkhandelwal810/sepsis-ai)
-
-### Local Development
-```bash
-# Clone repo
-git clone https://github.com/arpittkhandelwal/sepsisguard-ai.git
-
-# Frontend & Backend Setup
-cd sepsisguard-react
-npm install
-npm run dev
-```
-
----
-
-## 🔐 Demo Access
-
-*   👨‍⚕️ **User:** `dr.khandelwal@hospital.org`
-*   🔑 **Password:** `123`
-
----
-
-## 👨‍💻 Built By
-
-**ARPIT KHANDELWAL**  
-🚀 *Building the future of predictive healthcare*
+*Developed for Hackathon Submission.*
