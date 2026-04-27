@@ -181,17 +181,51 @@ app.post('/api/patients/:id/status', async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
-    const result = await pool.query(
-      'UPDATE patients SET status = $1 WHERE id = $2 RETURNING *',
-      [status, id]
-    );
-    if (result.rows.length > 0) {
-      res.json(result.rows[0]);
-    } else {
-      res.status(404).json({ message: 'Patient not found' });
-    }
+    await pool.query('UPDATE patients SET status = $1 WHERE id = $2', [status, id]);
+    res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/patients/:id/simulate', async (req, res) => {
+  const { id } = req.params;
+  const { hr, map } = req.body;
+  try {
+    const result = await pool.query('SELECT * FROM patients WHERE id = $1', [id]);
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Not found' });
+    
+    const patient = result.rows[0];
+    const currentRisk = patient.riskScore;
+    
+    // Simple simulation logic: Lower HR and higher MAP usually reduce risk
+    let predictedRisk = currentRisk;
+    if (hr < patient.vitals.hr) predictedRisk -= (patient.vitals.hr - hr) * 0.2;
+    if (map > patient.vitals.map) predictedRisk -= (map - patient.vitals.map) * 0.5;
+    
+    predictedRisk = Math.max(15, Math.min(95, Math.round(predictedRisk)));
+    const improvement = currentRisk - predictedRisk;
+
+    // Log the simulation as an intervention
+    const intervention = {
+      id: `SIM-${Date.now()}`,
+      type: 'Simulated Intervention',
+      details: `Simulated HR: ${hr}, MAP: ${map}. Predicted Risk: ${predictedRisk}%`,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'PREDICTION'
+    };
+
+    const updatedInterventions = [intervention, ...(patient.interventions || [])];
+    await pool.query('UPDATE patients SET interventions = $1 WHERE id = $2', [JSON.stringify(updatedInterventions), id]);
+
+    res.json({
+      currentRisk,
+      predictedRisk,
+      improvement,
+      patient: { ...patient, riskScore: predictedRisk, interventions: updatedInterventions }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

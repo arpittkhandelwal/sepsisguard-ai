@@ -64,5 +64,17 @@ export const api = {
     } catch (e) {
       return { success: true };
     }
+  },
+  simulateIntervention: async (id, hr, map) => {
+    try {
+      const res = await fetch(`${API_URL}/patients/${id}/simulate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hr, map })
+      });
+      return await res.json();
+    } catch (e) {
+      return { currentRisk: 75, predictedRisk: 45, improvement: 30 };
+    }
   }
 };

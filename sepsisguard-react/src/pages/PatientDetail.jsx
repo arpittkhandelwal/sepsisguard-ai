@@ -32,7 +32,7 @@ const PatientDetail = () => {
   useEffect(() => {
     let isInitialLoad = true;
     const fetchPatient = async () => {
-      const data = await api.getPatient(id);
+      const data = await api.getPatientById(id);
       if (data) {
         setPatient(data);
         if (isInitialLoad) {
