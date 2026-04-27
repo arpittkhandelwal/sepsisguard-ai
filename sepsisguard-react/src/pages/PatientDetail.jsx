@@ -371,7 +371,6 @@ const PatientDetail = () => {
               )}
             </div>
           </div>
-        </div>
           
         <div className="bg-slate-900 border border-white/10 rounded-xl overflow-hidden shadow-2xl">
           <div className="px-md py-sm border-b border-white/5 flex justify-between items-center bg-white/5">
@@ -565,9 +564,8 @@ const PatientDetail = () => {
               )}
             </div>
           </div>
-        </div>
       </div>
-
+      
       <button className="fixed bottom-8 right-8 bg-primary text-on-primary w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">
         <span className="material-symbols-outlined text-2xl" data-icon="emergency_share">emergency_share</span>
       </button>
