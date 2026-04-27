@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || 'postgres://postgres:Arpit@946040@db.posldhsqknqyybwlkzxj.supabase.co:5432/postgres',
   ssl: { rejectUnauthorized: false },
   connectionTimeoutMillis: 5000,
 });
@@ -25,8 +25,13 @@ exports.handler = async (event) => {
   }
 
   const method = event.httpMethod;
-  // Normalize path: strip leading /api so routes match regardless of rewrite
-  const path = (event.path || '').replace(/^\/?api/, '') || '/';
+  // Normalize path: handle Netlify's event.path correctly.
+  let path = event.path || '';
+  
+  // Strip out the prefixes so we just get the relative endpoint (e.g., /patients)
+  path = path.replace(/^\/\.netlify\/functions\/api/, '');
+  path = path.replace(/^\/api/, '');
+  if (!path.startsWith('/')) path = '/' + path;
 
   try {
     // GET /patients
