@@ -11,6 +11,7 @@
     "dev:all": "concurrently \"npm run dev\" \"cd ../sepsisguard-backend && npm start\""
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.104.1",
     "@tailwindcss/vite": "^4.2.4",
     "express": "^5.2.1",
     "lucide-react": "^1.11.0",

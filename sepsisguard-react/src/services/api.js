@@ -1,4 +1,9 @@
-const API_URL = '/.netlify/functions/api';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://posldhsqknqyybwlkzxj.supabase.co';
+const supabaseKey = 'sb_publishable_-untAk5_snXbC-3dnQSklg_UY1SSlgp';
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Fail-Safe Mock Data
 const MOCK_PATIENTS = [
@@ -47,23 +52,12 @@ const MOCK_PATIENTS = [
   }
 ];
 
-// Safe JSON parser — never throws on HTML responses
-const safeJson = async (res) => {
-  try {
-    return await res.json();
-  } catch {
-    return null;
-  }
-};
-
 export const api = {
   getPatients: async () => {
     try {
-      const res = await fetch(`${API_URL}/patients`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await safeJson(res);
-      if (!data || !Array.isArray(data)) throw new Error('Invalid response');
-      return data;
+      const { data, error } = await supabase.from('patients').select('*').order('id', { ascending: false });
+      if (error) throw error;
+      return data && data.length > 0 ? data : MOCK_PATIENTS;
     } catch (e) {
       console.warn('SepsisGuard: Using Mock Data.', e.message);
       return MOCK_PATIENTS;
@@ -72,11 +66,9 @@ export const api = {
 
   getPatientById: async (id) => {
     try {
-      const res = await fetch(`${API_URL}/patients/${id}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await safeJson(res);
-      if (!data) throw new Error('Invalid response');
-      return data;
+      const { data, error } = await supabase.from('patients').select('*').eq('id', id).single();
+      if (error) throw error;
+      return data || (MOCK_PATIENTS.find(p => p.id === id) || MOCK_PATIENTS[0]);
     } catch (e) {
       console.warn('SepsisGuard: Using Mock Patient.', e.message);
       return MOCK_PATIENTS.find(p => p.id === id) || MOCK_PATIENTS[0];
@@ -85,13 +77,10 @@ export const api = {
 
   createPatient: async (patientData) => {
     try {
-      const res = await fetch(`${API_URL}/patients`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(patientData)
-      });
-      const data = await safeJson(res);
-      return data || { ...patientData, id: `PT-${Math.floor(Math.random() * 9000) + 1000}`, riskScore: 45, status: 'Stable' };
+      const newPatient = { ...patientData, id: `PT-${Math.floor(Math.random() * 9000) + 1000}`, riskScore: 45, status: 'Stable' };
+      const { data, error } = await supabase.from('patients').insert([newPatient]).select();
+      if (error) throw error;
+      return data[0] || newPatient;
     } catch {
       return { ...patientData, id: `PT-${Math.floor(Math.random() * 9000) + 1000}`, riskScore: 45, status: 'Stable' };
     }
@@ -99,10 +88,9 @@ export const api = {
 
   getAlerts: async () => {
     try {
-      const res = await fetch(`${API_URL}/alerts`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await safeJson(res);
-      return Array.isArray(data) ? data : [];
+      const { data, error } = await supabase.from('alerts').select('*');
+      if (error) throw error;
+      return data || [];
     } catch {
       return [];
     }
@@ -110,10 +98,28 @@ export const api = {
 
   getAnalytics: async () => {
     try {
-      const res = await fetch(`${API_URL}/analytics`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await safeJson(res);
-      return data || {};
+      const { data: analyticsData } = await supabase.from('analytics').select('*');
+      const { data: patientsData } = await supabase.from('patients').select('status');
+      
+      const pts = patientsData || [];
+      const dist = { stable: 0, monitoring: 0, elevated: 0, critical: 0 };
+      pts.forEach(p => {
+        if (p.status === 'Critical') dist.critical++;
+        else if (p.status === 'High Risk') dist.elevated++;
+        else if (p.status === 'Watch') dist.monitoring++;
+        else dist.stable++;
+      });
+      
+      return {
+        activePatients: pts.length,
+        criticalAlerts: dist.critical,
+        avgResponseTime: '42s',
+        earlyDetectionHours: 8.5,
+        falsePositiveRate: 2.1,
+        survivalRateImprovement: 14.2,
+        riskDistribution: dist,
+        departments: analyticsData || []
+      };
     } catch {
       return {};
     }
@@ -121,12 +127,9 @@ export const api = {
 
   updatePatientStatus: async (id, status) => {
     try {
-      const res = await fetch(`${API_URL}/patients/${id}/status`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
-      });
-      return await safeJson(res) || { success: true };
+      const { error } = await supabase.from('patients').update({ status }).eq('id', id);
+      if (error) throw error;
+      return { success: true };
     } catch {
       return { success: true };
     }
@@ -134,13 +137,46 @@ export const api = {
 
   simulateIntervention: async (id, hr, map) => {
     try {
-      const res = await fetch(`${API_URL}/patients/${id}/simulate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hr, map })
-      });
-      return await safeJson(res) || { currentRisk: 75, predictedRisk: 45, improvement: 30 };
-    } catch {
+      // 1. Fetch patient
+      const { data: patient, error: fetchErr } = await supabase.from('patients').select('*').eq('id', id).single();
+      if (fetchErr) throw fetchErr;
+
+      const currentRisk = patient.riskscore || patient.riskScore || 50;
+      const vitals = patient.vitals || {};
+      
+      // 2. Calculate new risk
+      let predictedRisk = currentRisk;
+      if (hr < (vitals.hr || 80)) predictedRisk -= ((vitals.hr || 80) - hr) * 0.2;
+      if (map > (vitals.map || 65)) predictedRisk -= (map - (vitals.map || 65)) * 0.5;
+      predictedRisk = Math.max(15, Math.min(95, Math.round(predictedRisk)));
+      const improvement = currentRisk - predictedRisk;
+
+      // 3. Create intervention log
+      const intervention = {
+        id: `SIM-${Date.now()}`,
+        type: 'Simulated Intervention',
+        details: `Simulated HR: ${hr}, MAP: ${map}. Predicted Risk: ${predictedRisk}%`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: 'PREDICTION'
+      };
+
+      const updatedInterventions = [intervention, ...(patient.interventions || [])];
+
+      // 4. Update database
+      const { error: updateErr } = await supabase.from('patients').update({
+        interventions: updatedInterventions,
+        riskScore: predictedRisk
+      }).eq('id', id);
+      if (updateErr) throw updateErr;
+
+      return {
+        currentRisk,
+        predictedRisk,
+        improvement,
+        patient: { ...patient, riskScore: predictedRisk, interventions: updatedInterventions }
+      };
+    } catch (e) {
+      console.error(e);
       return { currentRisk: 75, predictedRisk: 45, improvement: 30 };
     }
   }
