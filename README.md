@@ -2,6 +2,8 @@
 
 **SepsisGuard AI** is a state-of-the-art, high-fidelity clinical dashboard designed for the real-time detection, monitoring, and proactive intervention of sepsis in hospital environments.
 
+**Live Demo:** [https://sepsisai.netlify.app](https://sepsisai.netlify.app)
+
 Built for the modern clinician, this platform bridges the gap between raw EHR data and actionable, life-saving insights using predictive AI modeling and interactive XAI (Explainable AI).
 
 ---

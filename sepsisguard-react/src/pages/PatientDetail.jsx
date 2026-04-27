@@ -188,28 +188,37 @@ const PatientDetail = () => {
                 <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${patient.riskScore > 75 ? 'from-white/40 to-transparent' : 'from-sky-500/20 to-transparent'}`}></div>
               </div>
               
-              <span className="relative z-10 font-label-caps text-[10px] text-white/50 tracking-[0.2em] mb-1">LIVE SEPSIS RISK</span>
+              <div className="relative z-10 flex items-center gap-2 mb-1">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                <span className="font-label-caps text-[10px] text-white/50 tracking-[0.2em]">LIVE SEPSIS RISK</span>
+              </div>
               
               <div className="relative z-10 flex items-center gap-2">
                 <span className="font-vital-sign text-[42px] leading-none tracking-tighter drop-shadow-md">{patient.riskScore}%</span>
                 <div className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest shadow-sm ${patient.riskScore > 75 ? 'bg-white text-error' : 'bg-white/10 text-white border border-white/20'}`}>
-                  {patient.riskScore > 75 ? 'CRITICAL' : patient.riskScore > 50 ? 'HIGH' : 'WATCH'}
+                   {patient.riskScore > 75 ? 'CRITICAL' : patient.riskScore > 50 ? 'HIGH' : 'WATCH'}
                 </div>
               </div>
 
-              <div className="relative z-10 flex items-center gap-1.5 mt-1">
+              <div className="relative z-10 flex flex-col items-center gap-0.5 mt-1">
                 {(() => {
                   const history = patient.risk_history || [];
-                  if (history.length < 2) return <span className="text-[9px] text-white/40">CALIBRATING...</span>;
+                  if (history.length < 2) return <span className="text-[9px] text-white/40 uppercase tracking-widest font-bold">CALIBRATING SYSTEM...</span>;
                   const diff = patient.riskScore - history[history.length - 2].riskScore;
                   return (
                     <>
-                      <span className={`material-symbols-outlined text-[14px] ${diff >= 0 ? 'text-error-container' : 'text-emerald-400'}`}>
-                        {diff >= 0 ? 'trending_up' : 'trending_down'}
-                      </span>
-                      <p className="text-[9px] font-bold text-white/70 leading-tight">
-                        Risk score {diff >= 0 ? 'increased' : 'decreased'} in last 2h
-                      </p>
+                      <div className="flex items-center gap-1">
+                        <span className={`material-symbols-outlined text-[14px] ${diff >= 0 ? 'text-error-container' : 'text-emerald-400'}`}>
+                          {diff >= 0 ? 'trending_up' : 'trending_down'}
+                        </span>
+                        <p className="text-[9px] font-bold text-white/70 leading-tight">
+                           Risk score {diff >= 0 ? 'increased' : 'decreased'} in last 2h
+                        </p>
+                      </div>
+                      <span className="text-[8px] font-black text-white/30 tracking-widest uppercase mt-0.5">Confidence: 94.2%</span>
                     </>
                   );
                 })()}
@@ -332,7 +341,7 @@ const PatientDetail = () => {
                 </div>
                 <button onClick={handleSimulate} className="w-full py-md bg-primary text-on-primary font-bold rounded flex items-center justify-center gap-md hover:opacity-90 transition-opacity">
                   <span className="material-symbols-outlined" data-icon="analytics">analytics</span>
-                  CALCULATE OUTCOME
+                  RUN SIMULATION
                 </button>
               </div>
 
@@ -360,6 +369,31 @@ const PatientDetail = () => {
                   <p className="mt-md text-[11px] text-slate-400 max-w-[240px]">Based on current inflammatory markers and simulated hemodynamic stabilization.</p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+          
+        <div className="bg-slate-900 border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+          <div className="px-md py-sm border-b border-white/5 flex justify-between items-center bg-white/5">
+            <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">High-Fidelity Telemetry</span>
+            <div className="flex gap-4">
+              <span className="text-[9px] text-white/40 uppercase font-bold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> ECG II
+              </span>
+              <span className="text-[9px] text-white/40 uppercase font-bold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-sky-500 rounded-full animate-pulse"></span> PLETH
+              </span>
+            </div>
+          </div>
+          <div className="p-lg h-32 relative flex items-center justify-center overflow-hidden">
+             {/* Faux waveform background */}
+             <div className="absolute inset-0 opacity-20 waveform-bg"></div>
+             <div className="relative z-10 flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <div className="text-[10px] text-emerald-400 font-black tracking-[0.3em] uppercase">Live Surveillance Active</div>
             </div>
           </div>
         </div>

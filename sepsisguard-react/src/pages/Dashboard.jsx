@@ -100,7 +100,13 @@ const Dashboard = () => {
       <div className="grid grid-cols-12 gap-6">
         {/* Risk Score Gauge */}
         <div className="col-span-12 lg:col-span-4 bg-white border border-slate-200 rounded p-8 flex flex-col items-center justify-center text-center shadow-sm">
-          <span className="text-label-caps font-label-caps text-slate-500 uppercase tracking-widest mb-6">Live Sepsis Risk Score</span>
+          <div className="flex items-center gap-2 mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-label-caps font-label-caps text-slate-500 uppercase tracking-widest">Live Sepsis Risk Score</span>
+          </div>
           <div className="relative w-48 h-48 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90">
               <circle cx="96" cy="96" fill="none" r="88" stroke="#F1F5F9" strokeWidth="12"></circle>
@@ -120,8 +126,14 @@ const Dashboard = () => {
               </span>
             </div>
           </div>
-          <div className="mt-8 text-body-md font-body-md text-slate-500 max-w-[200px]">
-            Risk score {patient.riskTrend === 'up' ? 'increased' : 'decreased'} in the last 45 minutes.
+          <div className="mt-8 flex flex-col items-center gap-2">
+            <div className="bg-slate-50 px-3 py-1 rounded-full border border-slate-100 flex items-center gap-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Model Confidence</span>
+              <span className="text-[10px] font-black text-slate-900">94.2%</span>
+            </div>
+            <div className="text-body-md font-body-md text-slate-500 max-w-[200px]">
+              Risk score {patient.riskTrend === 'up' ? 'increased' : 'decreased'} in the last 45 minutes.
+            </div>
           </div>
         </div>
 
@@ -255,7 +267,13 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="p-6 h-32 relative flex items-center justify-center">
-          <div className="text-[10px] text-emerald-500 font-bold tracking-widest animate-pulse uppercase">Live Monitoring Active</div>
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <div className="text-[10px] text-emerald-600 font-black tracking-[0.2em] uppercase">Live Surveillance Active</div>
+          </div>
         </div>
       </section>
 
