@@ -251,7 +251,7 @@ const PatientDetail = () => {
                   const points = history.map((h, i) => {
                     const x = (i / (history.length - 1)) * 800;
                     const y = 200 - (h.riskScore / 100) * 180;
-                    return `${x.toFixed(2)},${y.toFixed(2)}`;
+                    return `${x.toFixed(2)} ${y.toFixed(2)}`;
                   }).join(' L ');
                   
                   return (

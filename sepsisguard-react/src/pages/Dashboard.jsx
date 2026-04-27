@@ -98,12 +98,12 @@ const Dashboard = () => {
           {patient.riskScore > 75 && (
             <div className="bg-white border-2 border-error p-6 rounded relative overflow-hidden flex items-start gap-6 critical-pulse">
               <div className="flex-shrink-0 w-12 h-12 bg-error rounded flex items-center justify-center text-white">
-                <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>warning</span>
+                <span className="material-symbols-outlined">warning</span>
               </div>
               <div className="flex-grow">
                   <div>
                     <h4 className="text-headline-md font-headline-md text-slate-900">Critical Alert: Septic Shock Imminent</h4>
-                    <p className="text-label-caps font-label-caps text-error uppercase mt-0.5">Severity: Critical • {new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</p>
+                    <p className="text-label-caps font-label-caps text-error uppercase mt-0.5">Severity: Critical • {new Date().toLocaleTimeString(undefined, {hour: '2-digit', minute:'2-digit'})}</p>
                   </div>
                   <Link to={`/patient/${patient.id}`} className="bg-slate-900 text-white px-4 py-2 text-label-caps font-label-caps uppercase rounded hover:bg-slate-800 transition-colors">
                     Review Interventions
@@ -199,12 +199,8 @@ const Dashboard = () => {
             <span className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1"><span className="w-1.5 h-1.5 bg-sky-500 rounded-full"></span> PLETH</span>
           </div>
         </div>
-        <div className="p-6 h-32 relative">
-          <svg className="w-full h-full">
-            <path d="M 0 64 L 50 64 L 55 50 L 60 80 L 65 20 L 70 90 L 75 64 L 125 64 L 130 50 L 135 80 L 140 20 L 145 90 L 150 64 L 200 64" fill="none" stroke="#10b981" strokeWidth="1.5"></path>
-            <path d="M 200 64 L 250 64 L 255 50 L 260 80 L 265 20 L 270 90 L 275 64 L 325 64 L 330 50 L 335 80 L 340 20 L 345 90 L 350 64 L 400 64" fill="none" stroke="#10b981" strokeWidth="1.5"></path>
-            <path d="M 400 64 L 450 64 L 455 50 L 460 80 L 465 20 L 470 90 L 475 64 L 525 64 L 530 50 L 535 80 L 540 20 L 545 90 L 550 64 L 600 64" fill="none" stroke="#10b981" strokeWidth="1.5"></path>
-          </svg>
+        <div className="p-6 h-32 relative flex items-center justify-center">
+          <div className="text-[10px] text-emerald-500 font-bold tracking-widest animate-pulse uppercase">Live Monitoring Active</div>
         </div>
       </section>
 

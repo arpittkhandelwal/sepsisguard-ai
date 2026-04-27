@@ -23,27 +23,27 @@ const Sidebar = () => {
       </div>
       <nav className="flex-1 py-4 flex flex-col">
         <Link to="/dashboard" className={`flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all ${path === '/dashboard' ? 'bg-slate-50 text-slate-900 border-r-4 border-slate-900' : 'text-slate-500 hover:bg-slate-50'}`}>
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>dashboard</span>
+          <span className="material-symbols-outlined">dashboard</span>
           Dashboard
         </Link>
         <Link to="/patients" className={`flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all ${path === '/patients' || path.startsWith('/patient/') ? 'bg-slate-50 text-slate-900 border-r-4 border-slate-900' : 'text-slate-500 hover:bg-slate-50'}`}>
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>group</span>
+          <span className="material-symbols-outlined">group</span>
           Patients
         </Link>
         <Link to="/alerts" className={`flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all ${path === '/alerts' ? 'bg-slate-50 text-slate-900 border-r-4 border-slate-900' : 'text-slate-500 hover:bg-slate-50'}`}>
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>emergency</span>
+          <span className="material-symbols-outlined">emergency</span>
           Alerts
         </Link>
         <Link to="/analytics" className={`flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all ${path === '/analytics' ? 'bg-slate-50 text-slate-900 border-r-4 border-slate-900' : 'text-slate-500 hover:bg-slate-50'}`}>
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>monitoring</span>
+          <span className="material-symbols-outlined">monitoring</span>
           Analytics
         </Link>
         <Link to="/settings" className={`flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all ${path === '/settings' ? 'bg-slate-50 text-slate-900 border-r-4 border-slate-900' : 'text-slate-500 hover:bg-slate-50'}`}>
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>settings</span>
+          <span className="material-symbols-outlined">settings</span>
           Settings
         </Link>
         <button onClick={handleLogout} className="flex items-center gap-3 py-3 px-6 font-label-caps text-label-caps uppercase tracking-widest transition-all text-slate-500 hover:bg-slate-50 mt-auto border-t border-slate-50">
-          <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>logout</span>
+          <span className="material-symbols-outlined">logout</span>
           Sign Out
         </button>
       </nav>
