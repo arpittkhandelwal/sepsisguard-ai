@@ -226,8 +226,8 @@ setInterval(async () => {
   }
 }, 5000); // 5s to avoid hitting Supabase free-tier limits too hard
 
-// Catch-all to serve React App for any other routes (Mandatory named wildcard for Express 5)
-app.get('/:path*', (req, res) => {
+// Catch-all to serve React App for any other routes (Regex bypasses Express 5 string parsing issues)
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../sepsisguard-react/dist/index.html'));
 });
 
