@@ -186,12 +186,12 @@ const PatientDetail = () => {
                 </defs>
                 
                 {(() => {
-                  const history = patient.risk_history || [];
+                  const history = patient?.risk_history || [];
                   if (history.length < 2) return null;
                   
                   const points = history.map((h, i) => {
                     const x = (i / (history.length - 1)) * 800;
-                    const y = 180 - (h.riskScore / 100) * 160;
+                    const y = 180 - ((h.riskScore || 0) / 100) * 160;
                     return `${x},${y}`;
                   }).join(' L ');
                   
@@ -200,13 +200,13 @@ const PatientDetail = () => {
                       <path d={`M 0,200 L ${points} L 800,200 Z`} fill="url(#riskGrad)" className="chart-shimmer"></path>
                       <path d={`M ${points}`} fill="transparent" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-lg"></path>
                       {history.map((h, i) => (
-                        <circle key={i} cx={(i / (history.length - 1)) * 800} cy={180 - (h.riskScore / 100) * 160} r="3" fill="#ef4444" className="hover:r-5 transition-all"></circle>
+                        <circle key={i} cx={(i / (history.length - 1)) * 800} cy={180 - ((h.riskScore || 0) / 100) * 160} r="3" fill="#ef4444" className="hover:r-5 transition-all"></circle>
                       ))}
                     </>
                   );
                 })()}
 
-                {patient.timeline_markers?.map((marker, i) => {
+                {patient?.timeline_markers?.map((marker, i) => {
                   const x = (i === 0 ? 0.3 : 0.7) * 800; // Simplified for demo
                   return (
                     <g key={i}>
@@ -242,7 +242,7 @@ const PatientDetail = () => {
                   </div>
                   <input className="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary" max="150" min="60" type="range" value={simulatedHr} onChange={(e) => setSimulatedHr(Number(e.target.value))}/>
                   <div className="flex justify-between mt-xs text-[10px] text-slate-400">
-                    <span>Current: {patient.vitals.hr}</span>
+                    <span>Current: {patient?.vitals?.hr || '--'}</span>
                     <span>Target: 70-90</span>
                   </div>
                 </div>
@@ -253,7 +253,7 @@ const PatientDetail = () => {
                   </div>
                   <input className="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary" max="110" min="40" type="range" value={simulatedMap} onChange={(e) => setSimulatedMap(Number(e.target.value))}/>
                   <div className="flex justify-between mt-xs text-[10px] text-slate-400">
-                    <span>Current: {patient.vitals.map}</span>
+                    <span>Current: {patient?.vitals?.map || '--'}</span>
                     <span>Target: &gt;65</span>
                   </div>
                 </div>
@@ -299,7 +299,7 @@ const PatientDetail = () => {
                 <h3 className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">SOFA SCORE MONITORING</h3>
               </div>
               {(() => {
-                const v = patient.vitals;
+                const v = patient?.vitals || {};
                 let score = 0;
                 if ((v.pao2_fio2 || 400) < 400) score += 1;
                 if ((v.platelets || 200) < 150) score += 1;
@@ -317,7 +317,7 @@ const PatientDetail = () => {
             </div>
             <div className="p-md space-y-sm">
               {(() => {
-                const v = patient.vitals;
+                const v = patient?.vitals || {};
                 const systems = [
                   { name: 'Respiration (PaO2/FiO2)', val: v.pao2_fio2 || 400, score: (v.pao2_fio2 < 400 ? 1 : 0), limit: '< 400' },
                   { name: 'Coagulation (Platelets)', val: v.platelets || 200, score: (v.platelets < 150 ? 1 : 0), limit: '< 150' },
@@ -434,7 +434,7 @@ const PatientDetail = () => {
               <div className="flex justify-between items-center text-[12px]">
                 <span className="font-medium">WBC Count</span>
                 <div className="flex items-center gap-xs">
-                  <span className="font-data-mono">{patient.vitals.wbc || 12.0}</span>
+                  <span className="font-data-mono">{patient?.vitals?.wbc || '--'}</span>
                   <span className="text-error material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
                 </div>
               </div>
@@ -444,7 +444,7 @@ const PatientDetail = () => {
               <div className="flex justify-between items-center text-[12px] mt-md">
                 <span className="font-medium">Creatinine</span>
                 <div className="flex items-center gap-xs">
-                  <span className="font-data-mono">{patient.vitals.creatinine || 1.1}</span>
+                  <span className="font-data-mono">{patient?.vitals?.creatinine || '--'}</span>
                   <span className="text-error material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
                 </div>
               </div>
@@ -454,7 +454,7 @@ const PatientDetail = () => {
               <div className="flex justify-between items-center text-[12px] mt-md">
                 <span className="font-medium">Platelets</span>
                 <div className="flex items-center gap-xs">
-                  <span className="font-data-mono">{patient.vitals.platelets || 180}</span>
+                  <span className="font-data-mono">{patient?.vitals?.platelets || '--'}</span>
                   <span className="text-primary material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
                 </div>
               </div>
@@ -467,7 +467,7 @@ const PatientDetail = () => {
           <div className="bg-white border border-outline-variant rounded-lg p-sm flex flex-col h-[350px] overflow-hidden">
             <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-sm px-xs flex-shrink-0">INTERVENTION LOG</h3>
             <div className="space-y-sm overflow-y-auto overflow-x-hidden flex-grow pr-xs custom-scrollbar">
-              {Array.isArray(patient.interventions) && patient.interventions.map((intervention) => (
+              {Array.isArray(patient?.interventions) && patient.interventions.map((intervention) => (
                 <div key={intervention.id} className="border-b border-slate-50 pb-sm last:border-0 px-xs">
                   <div className="flex items-center gap-xs mb-1">
                     <span className="material-symbols-outlined text-primary/40 text-sm flex-shrink-0" data-icon={intervention.type === 'Simulated Intervention' ? 'bolt' : 'medical_services'}>{intervention.type === 'Simulated Intervention' ? 'bolt' : 'medical_services'}</span>
@@ -484,7 +484,7 @@ const PatientDetail = () => {
                   </div>
                 </div>
               ))}
-              {(!patient.interventions || !Array.isArray(patient.interventions) || patient.interventions.length === 0) && (
+              {(!patient?.interventions || !Array.isArray(patient.interventions) || patient.interventions.length === 0) && (
                 <p className="text-[12px] text-slate-500 italic">No recent interventions recorded.</p>
               )}
             </div>
