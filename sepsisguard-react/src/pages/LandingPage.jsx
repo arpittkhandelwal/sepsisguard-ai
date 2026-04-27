@@ -12,6 +12,21 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 90;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+  
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth" // Fast, native smooth scroll
+      });
+    }
+  };
+
   return (
     <div className="bg-slate-50 text-slate-900 min-h-screen selection:bg-sky-500/30 overflow-hidden font-sans">
       
@@ -35,9 +50,9 @@ const LandingPage = () => {
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors">Features</a>
-            <a href="#technology" className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors">XAI Engine</a>
-            <a href="#clinical" className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors">Clinical Evidence</a>
+            <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors cursor-pointer">Features</a>
+            <a href="#technology" onClick={(e) => scrollToSection(e, 'technology')} className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors cursor-pointer">XAI Engine</a>
+            <a href="#clinical" onClick={(e) => scrollToSection(e, 'clinical')} className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors cursor-pointer">Clinical Evidence</a>
           </nav>
 
           <div className="flex items-center gap-4">
