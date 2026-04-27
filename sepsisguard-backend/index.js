@@ -13,11 +13,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../sepsisguard-react/dist')));
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'db.posldhsqknqyybwlkzxj.supabase.co',
-  database: 'postgres',
-  password: 'Arpit@946040',
-  port: 5432,
+  connectionString: process.env.DATABASE_URL || 'postgres://postgres:Arpit@946040@db.posldhsqknqyybwlkzxj.supabase.co:5432/postgres',
   ssl: {
     rejectUnauthorized: false
   },
