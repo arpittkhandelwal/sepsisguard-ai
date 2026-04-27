@@ -189,13 +189,13 @@ const PatientDetail = () => {
                 </defs>
                 
                 {(() => {
-                  const history = patient?.risk_history || [];
+                  const history = (patient?.risk_history || []).filter(h => typeof h.riskScore === 'number' && !isNaN(h.riskScore));
                   if (history.length < 2) return null;
                   
                   const points = history.map((h, i) => {
                     const x = (i / (history.length - 1)) * 800;
                     const y = 180 - ((h.riskScore || 0) / 100) * 160;
-                    return `${x},${y}`;
+                    return `${x.toFixed(2)},${y.toFixed(2)}`;
                   }).join(' L ');
                   
                   return (
@@ -203,7 +203,7 @@ const PatientDetail = () => {
                       <path d={`M 0,200 L ${points} L 800,200 Z`} fill="url(#riskGrad)" className="chart-shimmer"></path>
                       <path d={`M ${points}`} fill="transparent" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-lg"></path>
                       {history.map((h, i) => (
-                        <circle key={i} cx={(i / (history.length - 1)) * 800} cy={180 - ((h.riskScore || 0) / 100) * 160} r="3" fill="#ef4444" className="hover:r-5 transition-all"></circle>
+                        <circle key={i} cx={((i / (history.length - 1)) * 800).toFixed(2)} cy={(180 - ((h.riskScore || 0) / 100) * 160).toFixed(2)} r="3" fill="#ef4444" className="hover:r-5 transition-all"></circle>
                       ))}
                     </>
                   );
