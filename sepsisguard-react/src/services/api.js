@@ -1,4 +1,4 @@
-const API_URL = '/api';
+const API_URL = '/.netlify/functions/api';
 
 // Fail-Safe Mock Data
 const MOCK_PATIENTS = [
