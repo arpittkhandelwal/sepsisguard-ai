@@ -1,0 +1,15 @@
+{
+  "name": "sepsisguard-ai-unified",
+  "version": "1.0.0",
+  "description": "Unified SepsisGuard AI Dashboard for Netlify",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd sepsisguard-backend && npm install && cd ../sepsisguard-react && npm install",
+    "build": "cd sepsisguard-react && npm run build",
+    "test-db": "node sepsisguard-backend/test_db.js",
+    "init-db": "node sepsisguard-backend/init_db.js"
+  },
+  "dependencies": {
+    "serverless-http": "^3.2.0"
+  }
+}

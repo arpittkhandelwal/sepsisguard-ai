@@ -138,6 +138,13 @@ app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../sepsisguard-react/dist/index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Unified SepsisGuard AI listening at port ${port}`);
-});
+// Export for serverless / testing
+module.exports = app;
+
+// Start server if run directly
+if (require.main === module) {
+  const PORT = process.env.PORT || 7860;
+  app.listen(PORT, () => {
+    console.log(`🚀 SepsisGuard Backend running on port ${PORT}`);
+  });
+}
