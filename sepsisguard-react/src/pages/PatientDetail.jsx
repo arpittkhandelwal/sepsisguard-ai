@@ -134,10 +134,10 @@ const PatientDetail = () => {
                     <span className="material-symbols-outlined text-sm" data-icon="close">close</span>
                   </button>
                 </div>
-                <div className="text-[11px] text-sky-900 font-mono space-y-2">
-                  <p><strong>SITUATION:</strong> {patient.name} is showing a {patient.riskScore}% Sepsis risk with a {patient.riskTrend} trend.</p>
-                  <p><strong>BACKGROUND:</strong> Admitted {patient.admissionDate.split('-')[0]} for query sepsis. Current attending: {patient.attending}.</p>
-                  <p><strong>ASSESSMENT:</strong> Tachycardic at {patient.vitals.hr} BPM. Hypotensive with MAP {patient.vitals.map} mmHg. Elevated Lactate detected.</p>
+              <div className="text-[11px] text-sky-900 font-mono space-y-2">
+                  <p><strong>SITUATION:</strong> {patient.name || 'Unknown Patient'} is showing a {patient.riskScore || 0}% Sepsis risk with a {patient.riskTrend || 'flat'} trend.</p>
+                  <p><strong>BACKGROUND:</strong> Admitted {(patient.admissionDate || 'N/A').split('-')[0]} for query sepsis. Current attending: {patient.attending || 'Pending'}.</p>
+                  <p><strong>ASSESSMENT:</strong> Tachycardic at {patient.vitals?.hr || '--'} BPM. Hypotensive with MAP {patient.vitals?.map || '--'} mmHg. Elevated Lactate detected.</p>
                   <p><strong>RECOMMENDATION:</strong> Titrate vasopressors to target MAP &gt;65. Complete remaining Sepsis Bundle items.</p>
                 </div>
                 <button className="mt-sm w-full py-2 bg-sky-600 text-white text-[10px] font-bold rounded hover:bg-sky-700 transition-colors uppercase tracking-widest">Copy to EHR</button>

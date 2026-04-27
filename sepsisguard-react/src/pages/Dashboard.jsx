@@ -101,10 +101,9 @@ const Dashboard = () => {
                 <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>warning</span>
               </div>
               <div className="flex-grow">
-                <div className="flex justify-between items-start mb-2">
                   <div>
                     <h4 className="text-headline-md font-headline-md text-slate-900">Critical Alert: Septic Shock Imminent</h4>
-                    <p className="text-label-caps font-label-caps text-error uppercase mt-0.5">Severity: Critical • {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                    <p className="text-label-caps font-label-caps text-error uppercase mt-0.5">Severity: Critical • {new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</p>
                   </div>
                   <Link to={`/patient/${patient.id}`} className="bg-slate-900 text-white px-4 py-2 text-label-caps font-label-caps uppercase rounded hover:bg-slate-800 transition-colors">
                     Review Interventions
